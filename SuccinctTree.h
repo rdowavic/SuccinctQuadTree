@@ -6,6 +6,8 @@
 #include <cmath>
 #include <cassert>
 #include "matrixprocessor.h"
+#include <string>
+#include <sstream>
 
 // list of constants that are facts about the dimensions,
 // nature of the matrix etc
@@ -18,6 +20,7 @@ const int EMPTY = 0;
 
 class SuccinctTree {
 public:
+  std::string meatAndBones() const;
   SuccinctTree() = default;
   SuccinctTree(const SuccinctTree& t) = default;
   ~SuccinctTree() = default;

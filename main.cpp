@@ -1,23 +1,11 @@
 #include "SuccinctTree.h"
 #include <iostream>
 int main() {
-  std::string s = "[1000,0100,0010,0001]";
-  SuccinctTree t = SuccinctTree::Construct(s);
-  for (int i = 0; i < t.ruler.size(); i++) {
-    if (i % 4 == 0) std::cout << "|";
-    std::cout << t.ruler[i] << " ";
-  }
-  std::cout << "\n";
-  SuccinctTree Union = t + t;
+  SuccinctTree first = SuccinctTree::Construct("[1000,0100,0010,0001]");
+  SuccinctTree second = SuccinctTree::Construct("[1111,1111,1111,1111]");
 
-  for (int i = 0; i < Union.ruler.size(); i++) {
-    if (i % 4 == 0) std::cout << "|";
-    std::cout << Union.ruler[i] << " ";
-  }
+  std::cout << first + second << "\n";
+  std::cout << first * second << "\n";
 
-  //
-  std::cout << Union << "\n";
-
-  std::cout << "\n";
   // std::cout << t << "\n";
 }

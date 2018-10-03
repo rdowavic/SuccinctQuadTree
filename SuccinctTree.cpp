@@ -1,5 +1,4 @@
 #include "SuccinctTree.h"
-#include <iostream>
 
 // let the constructor/destructor just be default for now, in fact
 // I might be able to just leave it like that
@@ -20,6 +19,19 @@ bool SuccinctTree::empty() const {
 
 void SuccinctTree::giveChild() {
   ruler.resize(ruler.size() + NUM_CHILDREN);
+}
+
+std::string SuccinctTree::meatAndBones() const {
+  std::stringstream ss;
+
+  for (size_t i = 0; i < ruler.size(); ++i) {
+    if (i % 4 == 0)
+      ss << "|";
+    ss << ruler[i] << " ";
+  }
+
+  ss << "|";
+  return ss.str();
 }
 
 std::ostream& operator <<(std::ostream& stream, const SuccinctTree& t) {
