@@ -16,7 +16,7 @@ int main() {
   }
 
   //
-  // std::cout << Union << "\n";
+  std::cout << Union << "\n";
 
   std::cout << "\n";
   // std::cout << t << "\n";

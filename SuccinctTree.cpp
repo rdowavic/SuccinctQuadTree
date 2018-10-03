@@ -53,11 +53,14 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& other) const {
 SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
                           const SuccinctTree& B, size_t nodeB) {
 
+    assert(A.dimension == B.dimension);
+
     if (nodeA == A.ruler.size()) return B;
     if (nodeB == B.ruler.size()) return A;
 
     // we're not empty so we can put a result
     SuccinctTree result; result.giveChild();
+    result.dimension = A.dimension;
     /**
     * We want to traverse over all subnodes in our two nodes
     * so we can join them up
@@ -88,7 +91,9 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
 
 SuccinctTree SuccinctTree::Product(const SuccinctTree& A, size_t nodeA,
                           const SuccinctTree& B, size_t nodeB) {
+    assert(A.dimension == B.dimension);
     SuccinctTree result;
+    result.dimension = A.dimension;
 
     if (A.ruler.size() == nodeA || B.ruler.size() == nodeB)
       return result; // if one of them is zero, the product is 0
