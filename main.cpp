@@ -8,5 +8,16 @@ int main() {
     std::cout << t.ruler[i] << " ";
   }
   std::cout << "\n";
-  std::cout << t << "\n";
+  SuccinctTree Union = t + t;
+
+  for (int i = 0; i < Union.ruler.size(); i++) {
+    if (i % 4 == 0) std::cout << "|";
+    std::cout << Union.ruler[i] << " ";
+  }
+
+  //
+  // std::cout << Union << "\n";
+
+  std::cout << "\n";
+  // std::cout << t << "\n";
 }
