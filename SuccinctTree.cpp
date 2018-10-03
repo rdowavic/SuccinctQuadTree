@@ -1,5 +1,6 @@
 #include "SuccinctTree.h"
 
+SuccinctTree::SuccinctTree(size_t dim) : dimension(dim) {}
 // let the constructor/destructor just be default for now, in fact
 // I might be able to just leave it like that
 SuccinctTree SuccinctTree::Construct(std::string s) {
@@ -55,24 +56,23 @@ SuccinctTree SuccinctTree::operator+(const SuccinctTree& other) {
 }
 
 SuccinctTree SuccinctTree::Product(const SuccinctTree& other) const {
-  return Product(*this, 0, other, 0);
+  assert(dimension == other.dimension);
+  return Product(*this, HEAD_NODE, other, HEAD_NODE, dimension);
 }
 
 SuccinctTree SuccinctTree::Union(const SuccinctTree& other) const {
-  return Union(*this, 0, other, 0);
+  assert(dimension == other.dimension);
+  return Union(*this, HEAD_NODE, other, HEAD_NODE, dimension);
 }
 
 SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
-                          const SuccinctTree& B, size_t nodeB) {
-
-    assert(A.dimension == B.dimension);
+                          const SuccinctTree& B, size_t nodeB, size_t dim) {
 
     if (nodeA == A.ruler.size()) return B;
     if (nodeB == B.ruler.size()) return A;
 
     // we're not empty so we can put a result
-    SuccinctTree result; result.giveChild();
-    result.dimension = A.dimension;
+    SuccinctTree result(dim); result.giveChild();
     /**
     * We want to traverse over all subnodes in our two nodes
     * so we can join them up
@@ -93,7 +93,7 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
         }
         else {
           // they're both non-zero and we need to merge them
-          SuccinctTree temp = Union(A, a, B, b);
+          SuccinctTree temp = Union(A, a, B, b, dim / 2);
           result.giveSubtree(temp, HEAD_NODE);
         }
       }
@@ -102,10 +102,8 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
 }
 
 SuccinctTree SuccinctTree::Product(const SuccinctTree& A, size_t nodeA,
-                          const SuccinctTree& B, size_t nodeB) {
-    assert(A.dimension == B.dimension);
-    SuccinctTree result;
-    result.dimension = A.dimension;
+                          const SuccinctTree& B, size_t nodeB, size_t dim) {
+    SuccinctTree result(dim);
 
     if (A.ruler.size() == nodeA || B.ruler.size() == nodeB)
       return result; // if one of them is zero, the product is 0
@@ -114,14 +112,14 @@ SuccinctTree SuccinctTree::Product(const SuccinctTree& A, size_t nodeA,
 
     for (size_t i = 0; i < ROW_SIZE; ++i) {
       for (size_t j = 0; j < ROW_SIZE; ++j) {
-        SuccinctTree temp; temp.giveChild(); temp.clear();
+        SuccinctTree temp(dim / 2);
         for (size_t k = 0; k < ROW_SIZE; ++k) {
           uint32_t first = A.get(nodeA, i, k);
           uint32_t second = B.get(nodeB, k, j);
           //we want to compute the product of these two if we can
           if (first != EMPTY && second != EMPTY) {
-            SuccinctTree product = Product(A, first, B, second);
-            temp = Union(temp, HEAD_NODE, product, HEAD_NODE);
+            SuccinctTree product = Product(A, first, B, second, dim / 2);
+            temp = temp + product;
           }
         }
         // we have now figured out temp. where does temp need to go?

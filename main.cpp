@@ -1,11 +1,15 @@
 #include "SuccinctTree.h"
 #include <iostream>
 int main() {
-  SuccinctTree first = SuccinctTree::Construct("[1000,0100,0010,0001]");
-  SuccinctTree second = SuccinctTree::Construct("[1111,1111,1111,1111]");
+  SuccinctTree ID = SuccinctTree::Construct("[1000,0100,0010,0001]");
+  SuccinctTree second = SuccinctTree::Construct("[0011,0110,1100,1100]");
 
-  std::cout << first + second << "\n";
-  std::cout << first * second << "\n";
+  SuccinctTree result = ID * second;
+
+  std::cout << ID.meatAndBones() << "\n";
+  std::cout << second << "\n";
+  std::cout << result << "\n";
+
 
   // std::cout << t << "\n";
 }

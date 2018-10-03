@@ -21,6 +21,7 @@ const int EMPTY = 0;
 class SuccinctTree {
 public:
   std::string meatAndBones() const;
+  SuccinctTree(size_t dim);
   SuccinctTree() = default;
   SuccinctTree(const SuccinctTree& t) = default;
   ~SuccinctTree() = default;
@@ -47,11 +48,11 @@ public:
 private:
   SuccinctTree Union(const SuccinctTree& other) const;
   static SuccinctTree Union(const SuccinctTree& A, size_t startA,
-                            const SuccinctTree& B, size_t startB);
+                            const SuccinctTree& B, size_t startB, size_t dim);
 
   SuccinctTree Product(const SuccinctTree& other) const;
   static SuccinctTree Product(const SuccinctTree& A, size_t startA,
-                            const SuccinctTree& B, size_t startB);
+                            const SuccinctTree& B, size_t startB, size_t dim);
 
   void giveSubtree(const SuccinctTree& from, size_t nodeNumber);
   // gives you the pointer to the next available slot in memory
