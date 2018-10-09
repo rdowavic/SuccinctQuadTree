@@ -247,8 +247,9 @@ size_t SuccinctTree::insert(std::string child) {
 
   for (size_t i = 0; i < NUM_CHILDREN; ++i) {
     std::string grandChild = p.recoverQuadrant(child, i);
-    ruler[index + i] = insert(grandChild);
-    length += ruler[index + i];
+    size_t lenGran = insert(grandChild);
+    ruler[index + i] = lenGran;
+    length += lenGran;
   }
   return length;
 }
