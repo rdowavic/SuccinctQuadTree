@@ -97,6 +97,7 @@ private:
   /**
   * at retrieves the boolean stored at this specific index in the matrix
   */
+public:
   bool at(size_t i, size_t j) const;
   size_t quadrantNum(size_t i, size_t j, size_t dim) const;
   size_t jumpSize(size_t position) const;

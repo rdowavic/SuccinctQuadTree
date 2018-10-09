@@ -92,6 +92,7 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
       // neither empty! Have to take the union recursively.
       else {
         SuccinctTree temp = Union(A, a, B, b, dim / 2);
+        // they should do the union of the first submatrix
         result.giveSubtree(temp, HEAD_NODE, temp.ruler.size());
         entry = temp.ruler.size();
       }
@@ -158,7 +159,7 @@ Node SuccinctTree::next(Node n) const {
 size_t SuccinctTree::get(Node node, size_t i, size_t j) const {
   // gets this quadrant out, just does the multiplication by
   // ROW_SIZE for the user
-  return ruler[node + (ROW_SIZE * i + j)];
+  return get(node, ROW_SIZE * i + j);
 }
 
 void SuccinctTree::set(Node node, size_t i, size_t j, size_t value) {
@@ -172,10 +173,16 @@ void SuccinctTree::set(Node node, size_t entry, size_t value) {
 size_t SuccinctTree::get(Node node, size_t entry) const {
   // you have to give 0 <= entry <= 3
   // node number has to be less than length / 4
+  // if you try to get something with 0 in it, we return 0
+  if (ruler[node + entry] == EMPTY) return HEAD_NODE;
+
+  if (!(node < ruler.size())) {
+    std::cout << "Node: " << node << ", entry: " << entry << "\n";
+  }
   assert(node < ruler.size());
   assert(entry >= 0 && entry < 4);
 
-  return next(node) + jumpSize(node + entry);
+  return node + jumpSize(node + entry);
 }
 
 size_t SuccinctTree::getLength(Node node, size_t entry) const {
@@ -189,7 +196,7 @@ bool SuccinctTree::at(size_t i, size_t j) const {
   size_t dim = dimension;
   size_t quadrant;
 
-  for (size_t k = HEAD_NODE; dim > 1; k += jumpSize(k), dim /= 2) {
+  for (Node k = HEAD_NODE; dim > 1; k = get(k, quadrant), dim /= 2) {
     quadrant = quadrantNum(i, j, dim);
     if (ruler[k + quadrant] == EMPTY)
       return false;
