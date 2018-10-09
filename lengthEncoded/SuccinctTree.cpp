@@ -90,7 +90,7 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
         entry = lengthA;
       }
       // neither empty! Have to take the union recursively.
-      else {
+      else if (a != EMPTY && b != EMPTY) {
         SuccinctTree temp = Union(A, a, B, b, dim / 2);
         // they should do the union of the first submatrix
         result.giveSubtree(temp, HEAD_NODE, temp.ruler.size());
