@@ -69,6 +69,10 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
                           const SuccinctTree& B, size_t nodeB, size_t dim) {
 
     // I'm not sure we even need those base cases
+    // okay we definitely do! LOL.
+    if (A.empty()) return B;
+    if (B.empty()) return A;
+
     SuccinctTree result(dim); result.giveChild();
 
     for (size_t i = 0; i < NUM_CHILDREN; ++i) {
@@ -105,7 +109,10 @@ SuccinctTree SuccinctTree::Union(const SuccinctTree& A, size_t nodeA,
 
 SuccinctTree SuccinctTree::Product(const SuccinctTree& A, Node nodeA,
                           const SuccinctTree& B, Node nodeB, size_t dim) {
+    // make sure neither of A or B is empty! Then just return an empty result.
     SuccinctTree result(dim);
+
+    if (A.empty() || B.empty()) return result;
 
     result.giveChild();
 
