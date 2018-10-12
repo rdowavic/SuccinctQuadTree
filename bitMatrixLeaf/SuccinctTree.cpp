@@ -222,8 +222,9 @@ bool SuccinctTree::at(size_t i, size_t j) const {
   // base case is when dimension == 1 (a 1 by 1 matrix)?
   size_t dim = dimension;
   size_t quadrant;
+	Node k = HEAD_NODE;
 
-  for (Node k = HEAD_NODE; dim >= LEAF_MUM; k = get(k, quadrant), dim /= 2) {
+  for (; dim >= LEAF_MUM; k = get(k, quadrant), dim /= 2) {
     quadrant = quadrantNum(i, j, dim);
     if (ruler[k + quadrant] == EMPTY)
       return false;
