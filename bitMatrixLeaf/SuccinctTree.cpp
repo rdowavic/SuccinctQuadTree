@@ -233,7 +233,7 @@ bool SuccinctTree::at(size_t i, size_t j) const {
   }
 	// here dim should be equal to LEAF_MUM
 	size_t pos = i * LEAF_DIM + j;
-	return (ruler[quadrant] >> (LEAF_SIZE - 1 - pos)) & 1;
+	return (ruler[k + quadrant] >> (LEAF_SIZE - 1 - pos)) & 1;
 }
 
 size_t SuccinctTree::jumpSize(size_t position) const {
