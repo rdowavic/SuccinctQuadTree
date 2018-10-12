@@ -224,7 +224,7 @@ bool SuccinctTree::at(size_t i, size_t j) const {
   size_t quadrant;
 	Node k = HEAD_NODE;
 
-  for (; dim >= LEAF_MUM; k = get(k, quadrant), dim /= 2) {
+  for (; dim > LEAF_MUM; k = get(k, quadrant), dim /= 2) {
     quadrant = quadrantNum(i, j, dim);
     if (ruler[k + quadrant] == EMPTY)
       return false;
@@ -232,9 +232,14 @@ bool SuccinctTree::at(size_t i, size_t j) const {
     if (quadrant >= 2) i -= dim / 2;
     if (quadrant % 2 == 1) j -= dim / 2;
   }
+	// this is when we finally reach LEAF MUM status
+	// adjust the shit again
+	size_t index = quadrantNum(i, j, dim);	
+  if (quadrant >= 2) i -= dim / 2;
+  if (quadrant % 2 == 1) j -= dim / 2;
 	// here dim should be equal to LEAF_MUM
 	size_t pos = i * LEAF_DIM + j;
-	return (ruler[k + quadrant] >> (LEAF_SIZE - 1 - pos)) & 1;
+	return (ruler[k + index] >> (LEAF_SIZE - 1 - pos)) & 1;
 }
 
 size_t SuccinctTree::jumpSize(size_t position) const {
