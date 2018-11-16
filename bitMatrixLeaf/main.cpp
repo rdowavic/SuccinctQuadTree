@@ -1,19 +1,34 @@
 #include "SuccinctTree.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
 int main() {
+    std::ifstream file1;
+    std::ifstream file2;
+    file1.open("../Matrix/matrix1.txt");
+    file2.open("../Matrix/matrix2.txt");
 
-  // std::vector<int> v1({0, 1, 2});
-  // std::vector<int> v2({3, 4});
-  //
-  // v1.insert(v1.end(), v2.begin(), v2.end());
+    if (file1 && file2) {
+       std::string matrix1;
+       std::string matrix2;
+       std::stringstream ss;
+       std::stringstream ss2;
+       ss << file1.rdbuf();
+       ss2 << file2.rdbuf();
+       matrix1 = ss.str();
+       matrix2 = ss2.str();
+    
+   //  std::cout << "Node size: " << sizeof(Node) << ", Link size: " << sizeof(Link) << "\n";
+       SuccinctTree q = SuccinctTree::Construct(matrix1);
+       SuccinctTree p = SuccinctTree::Construct(matrix2);
+       SuccinctTree product = p * q;
+       std::cout << product << "\n";
+     //  std::cout << Node::maxUsage * sizeof(Node)<< "\n";
+    }
 
-  SuccinctTree ID = SuccinctTree::Construct("[1000,0100,0010,0001]");
-  SuccinctTree second = SuccinctTree::Construct("[0011,0110,1100,1100]");
-  //
- SuccinctTree result = ID + second;
-  std::cout << ID << "\n";
-   std::cout << second << "\n";
+    file1.close();
+    file2.close();
+    return 0;
 
-
-  // std::cout << result << "\n";
 }
