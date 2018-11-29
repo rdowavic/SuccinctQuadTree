@@ -1,19 +1,31 @@
 #include "SuccinctTree.h"
 #include <iostream>
-int main() {
+#include <fstream>
+#include <sstream>
 
-  // std::vector<int> v1({0, 1, 2});
-  // std::vector<int> v2({3, 4});
-  //
-  // v1.insert(v1.end(), v2.begin(), v2.end());
-
-  SuccinctTree ID = SuccinctTree::Construct("[1000,0100,0010,0001]");
-  SuccinctTree second = SuccinctTree::Construct("[0011,0110,1100,1100]");
-  //
- SuccinctTree result = ID + second;
-  std::cout << ID << "\n";
-   std::cout << second << "\n";
-
-
-  // std::cout << result << "\n";
+std::string getMatrix(const std::ifstream& file) {
+  if (!file.is_open()) return "";
+  std::string matrix;
+  std::stringstream ss;
+  ss << file.rdbuf();
+  matrix = ss.str();
+  return matrix;
 }
+
+int main() {
+  std::ifstream file1("../../Matrix/matrix1.txt");
+  std::ifstream file2("../../Matrix/matrix2.txt");
+
+  std::string m1 = getMatrix(file1);
+  std::string m2 = getMatrix(file2);
+
+  SuccinctTree tree1 = SuccinctTree::Construct(m1);
+  SuccinctTree tree2 = SuccinctTree::Construct(m2);
+
+  SuccinctTree result = tree1 * tree2;
+  std::cout << result << "\n";
+
+  file1.close(); file2.close(); return 0;
+}
+
+
